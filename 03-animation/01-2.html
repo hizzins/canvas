@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .canvas {
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>requestAnimationFrame</h1>
+    <canvas class="canvas" width="500" height="300"></canvas>
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const ctx = canvas.getContext('2d');
+      let count = 1;
+      let timer = 0;
+
+      ctx.fillRect(0, 100, 20, 20);
+
+      function render() {
+        timer++;
+
+        if (timer % 10 === 0) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillRect(count, 100, 20, 20);
+
+          if (count > 200) {
+            return false;
+          }
+        }
+
+        requestAnimationFrame(render);
+        // 동작하는중에 탭을 바꾸면 애니메이션이 멈춤.
+        // 초당 60프레임을 목표로 돌아감.
+        count += 20;
+      }
+      render();
+      console.log(111);
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

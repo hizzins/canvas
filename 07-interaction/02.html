@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        margin: 0;
+      }
+      canvas {
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const ctx = canvas.getContext('2d');
+      const rectArray = [];
+
+      let currentRect = null;
+
+      for (let i = 0; i < 7; i++) {
+        rectArray.push({
+          num: i,
+          x: Math.random() * 600,
+          y: Math.random() * 100,
+          width: 50,
+          height: 70
+        });
+      }
+
+      function render() {
+        for (let i = 0; i < rectArray.length; i++) {
+
+          const {num, x, y, width, height} = rectArray[i];
+          ctx.fillStyle = 'rgba(0, 0, 255, .7)';
+          ctx.fillRect(x, y, width, height);
+          ctx.fillStyle = 'black';
+          ctx.font = 'bold 30px sans-serif';
+          ctx.fillText(num, x + 20, y + 30);
+        }
+      }
+
+      window.addEventListener('click', (e) => {
+
+        for (let i = 0; i < rectArray.length; i++) {
+          const rect = rectArray[i];
+          const {clientX, clientY} =  e;
+          const { num, x, y, width, height} = rect;
+
+          if (clientX >= x && clientX <= x + width && clientY >= y && clientY <= y + height) {
+            currentRect = rect;
+          }
+        }
+        console.log(`${currentRect.num}번 사각형 클릭`);
+
+      });
+
+      render();
+
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

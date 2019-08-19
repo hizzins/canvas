@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        margin: 0;
+      }
+      canvas {
+        width: 100%;
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const ctx = canvas.getContext('2d');
+      const rectArray = [];
+      const mousePosition = {x: 0, y: 0};
+
+      let ratio = 1;
+      let currentRect = null;
+      let detailStatus = 'hide';
+      let panelY = canvas.height;
+      let rect = null;
+
+      for (let i = 0; i < 7; i++) {
+        rectArray.push({
+          num: i,
+          speed: Math.random() + 0.05,
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          width: 100,
+          height: 100
+        });
+
+      }
+
+      function render() {
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < rectArray.length; i++) {
+          rect = rectArray[i];
+          const {num, x, y, width, height} = rect;
+
+          if (x > canvas.width) {
+            rect.x = -width;
+          }
+
+          ctx.fillStyle = 'rgba(0, 0, 255, .7)';
+          ctx.fillRect(x, y, width, height);
+          ctx.fillStyle = 'black';
+          ctx.font = 'bold 30px sans-serif';
+          ctx.fillText(num, x + 20, y + 30);
+
+          switch(detailStatus) {
+            case 'ani':
+              if (panelY <= 50) {
+                detailStatus = 'show';
+                panelY = canvas.height;
+              }
+              ctx.fillRect(200, panelY, 200, 300);
+              panelY -= 5;
+              break;
+            case 'show':
+              ctx.fillRect(200, 50, 200, 300);
+              ctx.save();
+              ctx.fillStyle = 'white';
+              ctx.fillText(currentRect.num, 250, 100);
+              ctx.restore();
+              break;
+            default:
+              rect.x += rect.speed;
+              break;
+          }
+
+        }
+        requestAnimationFrame(render);
+
+      }
+      function setRatio() {
+        ratio = canvas.width / window.innerWidth;
+
+      }
+      window.addEventListener('click', (e) => {
+        const {clientX, clientY} =  e;
+        currentRect = null;
+
+        mousePosition.x = clientX * ratio;
+        mousePosition.y = clientY * ratio;
+        for (let i = 0; i < rectArray.length; i++) {
+          rect = rectArray[i];
+          const { x, y, width, height } = rect;
+
+          if (mousePosition.x >= x && mousePosition.x <= x + width && mousePosition.y >= y && mousePosition.y <= y + height) {
+            currentRect = rect;
+          }
+        }
+
+        if (detailStatus === 'hide' && currentRect) {
+          detailStatus = 'ani';
+        } else if (detailStatus === 'show') {
+          detailStatus = 'hide';
+        }
+
+
+        console.log(`${currentRect.num}번 사각형 클릭`);
+      });
+
+      window.addEventListener('resize', setRatio);
+
+      setRatio();
+      render();
+
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

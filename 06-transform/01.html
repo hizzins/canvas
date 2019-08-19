@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .canvas {
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Transform</h1>
+    <canvas class="canvas" width="500" height="300"></canvas>
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const ctx = canvas.getContext('2d');
+
+      function render() {
+        ctx.fillStyle = 'orange';
+        ctx.fillRect(0, 0, 100, 100);
+        ctx.save(); // save, restore, 연산 비용이 드는편. 남발하지 말것.
+        ctx.fillStyle = 'dodgerblue';
+        ctx.fillRect(0, 100, 100, 100);
+        ctx.restore();
+        ctx.font = '30px sans-serif';
+        ctx.fillText('zzzzzz', 200, 200); // 내용, x, y
+        // requestAnimationFrame(render);
+      }
+      render();
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

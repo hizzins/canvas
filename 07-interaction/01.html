@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      canvas {
+        background: #eee;
+      }
+      .controls {
+        margin-bottom: 10px;
+      }
+      .btn, .btn-reset, .btn-create-image {
+        font-size: 1.5rem;
+        border: 1px solid #efefef;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Interaction</h1>
+    <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+    <div class="controls">
+      <button class="btn" data-color="red">빨강</button>
+      <button class="btn" data-color="green">초록</button>
+      <button class="btn" data-color="blue">파랑</button>
+      <button class="btn" data-color="black">검정</button>
+    </div>
+    <button class="btn-reset">지우기</button>
+    <button class="btn-create-image">이미지 캡처</button>
+
+    <div>
+      <img id="image-place" src="" />
+    </div>
+    <script>
+      const controlsEl = document.querySelector('.controls');
+      const resetEl = document.querySelector('.btn-reset');
+      const createImageEl = document.querySelector('.btn-create-image');
+      const captureImageEl = document.querySelector('#image-place');
+      const canvas = document.querySelector('.canvas');
+      const ctx = canvas.getContext('2d');
+      const cRect = canvas.getBoundingClientRect();
+      const position = {x: 0, y: 0};
+
+      let isReady = false;
+      let color = 'black';
+
+      canvas.addEventListener('mousedown', () => {
+        isReady = true;
+      });
+
+      canvas.addEventListener('mouseup', () => {
+        isReady = false;
+      });
+
+      canvas.addEventListener('mousemove', (e) => {
+        if (!isReady) {
+          return false;
+        }
+        const x = e.clientX - cRect.left;
+        const y = e.clientY - cRect.top;
+
+        position.x = x;
+        position.y = y;
+
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(position.x, position.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      controlsEl.addEventListener('click', (e) => {
+        color = e.target.getAttribute('data-color');
+        console.log('color', color);
+      });
+
+      resetEl.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+
+      createImageEl.addEventListener('click', () => {
+        const imageURL = canvas.toDataURL('image/png');
+
+        captureImageEl.setAttribute('src', imageURL);
+      });
+
+
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
