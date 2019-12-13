@@ -4,7 +4,7 @@
 ### 예제2. 움직이는 캔버스 객체에 이벤트 적용, 반응형 사이즈
 [jsfiddle로 보기](https://jsfiddle.net/hizzin/cvz0hqrs/4/)  
 ### 예제3-1.   
-[jsfiddle로 보기1](https://jsfiddle.net/hizzin/a34L5x8e/54/)    
+[jsfiddle로 보기1](https://jsfiddle.net/hizzin/a34L5x8e/52/)    
 [jsfiddle로 보기2](https://jsfiddle.net/hizzin/a34L5x8e/55/)  
 ### 예제3-2. 원운동
 [jsfiddle로 보기1](https://jsfiddle.net/hizzin/a34L5x8e/1/)  
